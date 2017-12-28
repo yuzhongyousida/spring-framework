@@ -36,41 +36,24 @@ import org.springframework.web.context.request.async.DeferredResult.DeferredResu
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * The central class for managing asynchronous request processing, mainly intended
- * as an SPI and not typically used directly by application classes.
- *
- * <p>An async scenario starts with request processing as usual in a thread (T1).
- * Concurrent request handling can be initiated by calling
- * {@link #startCallableProcessing(Callable, Object...) startCallableProcessing} or
- * {@link #startDeferredResultProcessing(DeferredResult, Object...) startDeferredResultProcessing},
- * both of which produce a result in a separate thread (T2). The result is saved
- * and the request dispatched to the container, to resume processing with the saved
- * result in a third thread (T3). Within the dispatched thread (T3), the saved
- * result can be accessed via {@link #getConcurrentResult()} or its presence
- * detected via {@link #hasConcurrentResult()}.
- *
- * @author Rossen Stoyanchev
- * @since 3.2
- * @see org.springframework.web.context.request.AsyncWebRequestInterceptor
- * @see org.springframework.web.servlet.AsyncHandlerInterceptor
- * @see org.springframework.web.filter.OncePerRequestFilter#shouldNotFilterAsyncDispatch
- * @see org.springframework.web.filter.OncePerRequestFilter#isAsyncDispatch
+ * 用于管理异步请求处理的中心类，主要用作SPI，而不是通常由应用程序类直接使用。
+ * （SPI是串行外设接口（Serial Peripheral Interface）的缩写）
  */
 public final class WebAsyncManager {
 
-	private static final Object RESULT_NONE = new Object();
-
 	private static final Log logger = LogFactory.getLog(WebAsyncManager.class);
+
+	private static final Object RESULT_NONE = new Object();
 
 	private static final UrlPathHelper urlPathHelper = new UrlPathHelper();
 
-	private static final CallableProcessingInterceptor timeoutCallableInterceptor =
-			new TimeoutCallableProcessingInterceptor();
+	private static final CallableProcessingInterceptor timeoutCallableInterceptor = new TimeoutCallableProcessingInterceptor();
 
-	private static final DeferredResultProcessingInterceptor timeoutDeferredResultInterceptor =
-			new TimeoutDeferredResultProcessingInterceptor();
+	private static final DeferredResultProcessingInterceptor timeoutDeferredResultInterceptor = new TimeoutDeferredResultProcessingInterceptor();
 
-
+	/**
+	 * 异步web请求对象属性
+	 */
 	private AsyncWebRequest asyncWebRequest;
 
 	private AsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor(this.getClass().getSimpleName());
@@ -87,11 +70,10 @@ public final class WebAsyncManager {
 
 
 	/**
-	 * Package-private constructor.
-	 * @see WebAsyncUtils#getAsyncManager(javax.servlet.ServletRequest)
-	 * @see WebAsyncUtils#getAsyncManager(org.springframework.web.context.request.WebRequest)
+	 * 无参构造器
 	 */
 	WebAsyncManager() {
+
 	}
 
 

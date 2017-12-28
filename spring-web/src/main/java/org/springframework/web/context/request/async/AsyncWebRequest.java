@@ -20,7 +20,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Extends {@link NativeWebRequest} with methods for asynchronous request processing.
+ * 异步web request接口
  *
  * @author Rossen Stoyanchev
  * @since 3.2
@@ -28,47 +28,38 @@ import org.springframework.web.context.request.NativeWebRequest;
 public interface AsyncWebRequest extends NativeWebRequest {
 
 	/**
-	 * Set the time required for concurrent handling to complete.
-	 * This property should not be set when concurrent handling is in progress,
-	 * i.e. when {@link #isAsyncStarted()} is {@code true}.
-	 * @param timeout amount of time in milliseconds; {@code null} means no
-	 * 	timeout, i.e. rely on the default timeout of the container.
+	 * 设置完成并发处理所需的时间。当并行处理正在进行时，不应设置此属性。
 	 */
 	void setTimeout(@Nullable Long timeout);
 
 	/**
-	 * Add a handler to invoke when concurrent handling has timed out.
+	 * 添加请求处理过程结束之后的有超时时间的handler线程
 	 */
 	void addTimeoutHandler(Runnable runnable);
 
 	/**
-	 * Add a handle to invoke when request processing completes.
+	 * 添加请求处理过程结束之后的handler线程
 	 */
 	void addCompletionHandler(Runnable runnable);
 
 	/**
-	 * Mark the start of asynchronous request processing so that when the main
-	 * processing thread exits, the response remains open for further processing
-	 * in another thread.
-	 * @throws IllegalStateException if async processing has completed or is not supported
+	 * 开启异步请求处理过程
 	 */
 	void startAsync();
 
 	/**
-	 * Whether the request is in async mode following a call to {@link #startAsync()}.
-	 * Returns "false" if asynchronous processing never started, has completed,
-	 * or the request was dispatched for further processing.
+	 * 请求的异步回调是否开始
+	 * 如果异步处理从未启动、已完成或者请求进一步处理，则返回“false”
 	 */
 	boolean isAsyncStarted();
 
 	/**
-	 * Dispatch the request to the container in order to resume processing after
-	 * concurrent execution in an application thread.
+	 * 将request分发到容器中以便同一应用线程中的并发任务完成之后继续执行
 	 */
 	void dispatch();
 
 	/**
-	 * Whether asynchronous processing has completed.
+	 * 异步处理过程是否完成
 	 */
 	boolean isAsyncComplete();
 
