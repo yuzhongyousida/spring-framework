@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory.xml;
 
@@ -51,18 +36,7 @@ import org.springframework.util.xml.SimpleSaxErrorHandler;
 import org.springframework.util.xml.XmlValidationModeDetector;
 
 /**
- * Bean definition reader for XML bean definitions.
- * Delegates the actual XML document reading to an implementation
- * of the {@link BeanDefinitionDocumentReader} interface.
- *
- * <p>Typically applied to a
- * {@link org.springframework.beans.factory.support.DefaultListableBeanFactory}
- * or a {@link org.springframework.context.support.GenericApplicationContext}.
- *
- * <p>This class loads a DOM document and applies the BeanDefinitionDocumentReader to it.
- * The document reader will register each bean definition with the given bean factory,
- * talking to the latter's implementation of the
- * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry} interface.
+ * Xml定义bean时，对应的bean Definition Reader类
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -78,22 +52,22 @@ import org.springframework.util.xml.XmlValidationModeDetector;
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
-	 * Indicates that the validation should be disabled.
+	 * 是否禁用校验标志
 	 */
 	public static final int VALIDATION_NONE = XmlValidationModeDetector.VALIDATION_NONE;
 
 	/**
-	 * Indicates that the validation mode should be detected automatically.
+	 * 是否应自动检测验证模式标识
 	 */
 	public static final int VALIDATION_AUTO = XmlValidationModeDetector.VALIDATION_AUTO;
 
 	/**
-	 * Indicates that DTD validation should be used.
+	 * 是否应使用DTD校验指示
 	 */
 	public static final int VALIDATION_DTD = XmlValidationModeDetector.VALIDATION_DTD;
 
 	/**
-	 * Indicates that XSD validation should be used.
+	 * 是否应使用XSD校验指示
 	 */
 	public static final int VALIDATION_XSD = XmlValidationModeDetector.VALIDATION_XSD;
 
@@ -123,6 +97,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
 
+	/**
+	 * 当前线程，正在加载的 EncodedResource 集合
+	 */
 	private final ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded =
 			new NamedThreadLocal<>("XML bean definition resources currently being loaded");
 

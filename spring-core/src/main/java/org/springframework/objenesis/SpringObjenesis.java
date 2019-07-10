@@ -16,10 +16,15 @@
 
 package org.springframework.objenesis;
 
+import org.objenesis.Objenesis;
+import org.objenesis.ObjenesisException;
+import org.objenesis.instantiator.ObjectInstantiator;
+import org.objenesis.strategy.InstantiatorStrategy;
+import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.core.SpringProperties;
-import org.springframework.objenesis.instantiator.ObjectInstantiator;
-import org.springframework.objenesis.strategy.InstantiatorStrategy;
-import org.springframework.objenesis.strategy.StdInstantiatorStrategy;
+//import org.springframework.objenesis.instantiator.ObjectInstantiator;
+//import org.springframework.objenesis.strategy.InstantiatorStrategy;
+//import org.springframework.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
